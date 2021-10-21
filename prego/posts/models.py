@@ -64,9 +64,7 @@ class PostTranslation(models.Model):
         is_new_post_not_in_en = (
             not self.pk and self.language != Languages.EN and not hasattr(self, "post")
         )
-        is_new_translation = (
-            not self.pk and self.language != Languages.EN and hasattr(self, "post")
-        )
+        is_new_translation_entry = not self.pk and hasattr(self, "post")
 
         if is_new_post_in_en:
             self.post = Post.objects.create(
@@ -75,8 +73,11 @@ class PostTranslation(models.Model):
             )
         elif is_new_post_not_in_en:
             raise ValidationError(f"Initial post must be in {Languages.EN}")
-        elif is_new_translation:
-            pass
+
+        if is_new_translation_entry:
+            languages = list(self.post.translations.values_list("language", flat=True))
+            if self.language in languages:
+                raise ValidationError(f"Translation for {self.language} already exist")
 
         return super().save(*args, **kwargs)
 
