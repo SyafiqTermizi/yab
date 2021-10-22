@@ -3,23 +3,19 @@ import * as webpack from "webpack";
 
 const config: webpack.Configuration = {
     entry: {
-        script: __dirname + "/prego-fe/js/index.js",
+        bootstrap: __dirname + "/prego-fe/js/bootstrap.js"
     },
     output: {
         path: path.resolve("./static/"),
-        filename: "[name]"
+        filename: "[name].js"
     },
     module: {
         rules: [
             {
-                test: /\.scss$/,
-                exclude: /node_modules/,
+                test: /\.css$/,
                 use: [
-                    {
-                        loader: "file-loader",
-                        options: { outputPath: "css/", name: "[name].min.css" }
-                    },
-                    "sass-loader"
+                    "style-loader",
+                    "css-loader"
                 ]
             }
         ]
