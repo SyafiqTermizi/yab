@@ -3,7 +3,8 @@ import * as webpack from "webpack";
 
 const config: webpack.Configuration = {
     entry: {
-        bootstrap: __dirname + "/prego-fe/js/bootstrap.js"
+        bootstrap: __dirname + "/prego-fe/ts/bootstrap.ts",
+        editor: __dirname + "/prego-fe/ts/editor.ts"
     },
     output: {
         path: path.resolve("./static/"),
@@ -17,7 +18,12 @@ const config: webpack.Configuration = {
                     "style-loader",
                     "css-loader"
                 ]
-            }
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
         ]
     }
 }
