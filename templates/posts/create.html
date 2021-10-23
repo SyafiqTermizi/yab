@@ -1,12 +1,59 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_style %}
+<style>
+    .ql-toolbar {
+        border-top-left-radius: .25em;
+        border-top-right-radius: .25em;
+    }
+
+    .ql-container {
+        border-bottom-left-radius: .25em;
+        border-bottom-right-radius: .25em
+    }
+</style>
+{% endblock extra_style %}
+
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <div id="toolbar"></div>
-            <div id="editor"></div>
+            <form action="{% url 'posts:create' %}" method="post">
+                {% csrf_token %}
+                <form>
+                    <div class="mb-3">
+                        <label for="post" class="form-label">Post</label>
+                        <select name="post" class="form-select">
+                            <option selected>Select a post</option>
+                            {% for post in posts %}
+                            <option value="{{ post.pk }}">{{ post.slug }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input name="title" type="text" class="form-control" id="title">
+                    </div>
+                    <div class="mb-3">
+                        <div id="editor"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="language" class="form-label">Language</label>
+                        <select name="language" class="form-select">
+                            <option selected>Language</option>
+                            {% for language in languages %}
+                            <option value="{{ language.0 }}">{{ language.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="draft">
+                        <label name="draft" class="form-check-label" for="draft">Draft</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </form>
         </div>
     </div>
 </div>

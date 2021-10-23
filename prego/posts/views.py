@@ -1,11 +1,30 @@
-from django.views.generic import CreateView
+from typing import Any, Dict
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count
+from django.views.generic import TemplateView
 
-from .models import PostTranslation
+from .models import PostTranslation, Post, Languages
 
 
-class CreatePostView(LoginRequiredMixin, CreateView):
-    queryset = PostTranslation.objects.all()
-    success_url = ""
-    fields = ["post", "title", "body", "language", "draft"]
+class CreatePostView(LoginRequiredMixin, TemplateView):
     template_name = "posts/create.html"
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "languages": Languages.choices,
+                "posts": Post.objects.annotate(
+                    translation_count=Count("translations"),
+                )
+                .filter(
+                    translation_count__lt=30,
+                )
+                .values(
+                    "pk",
+                    "slug",
+                ),
+            }
+        )
+        return context
