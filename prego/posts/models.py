@@ -1,5 +1,6 @@
-from django.db import models
 from django.core.exceptions import ValidationError
+from django.db import models
+from django.db.models.aggregates import Count
 from django.utils.text import slugify
 
 from prego.users.models import User
@@ -15,6 +16,13 @@ class Languages(models.TextChoices):
     ZH = "zh", "Zhongweng"
 
 
+class PostManager(models.Manager):
+    def get_post_with_incomplete_translation(self):
+        return self.annotate(
+            translation_count=Count("translations"),
+        ).filter(translation_count__lt=len(Languages.choices))
+
+
 class Post(models.Model):
     slug = models.SlugField()
 
@@ -24,6 +32,8 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         null=True,
     )
+
+    objects = PostManager()
 
     def __str__(self) -> str:
         return self.slug
@@ -57,7 +67,7 @@ class PostTranslation(models.Model):
     def __str__(self) -> str:
         return f"{self.post.slug} ({self.language})"
 
-    def save(self, *args, **kwargs):
+    def clean(self) -> None:
         is_new_post_in_en = (
             not self.pk and self.language == Languages.EN and not hasattr(self, "post")
         )
@@ -72,14 +82,20 @@ class PostTranslation(models.Model):
                 created_by=self.created_by,
             )
         elif is_new_post_not_in_en:
-            raise ValidationError(f"Initial post must be in {Languages.EN}")
+            raise ValidationError(
+                {
+                    "language": f"Initial post must be in {Languages.EN}",
+                }
+            )
 
         if is_new_translation_entry:
             languages = list(self.post.translations.values_list("language", flat=True))
             if self.language in languages:
-                raise ValidationError(f"Translation for {self.language} already exist")
-
-        return super().save(*args, **kwargs)
+                raise ValidationError(
+                    {
+                        "post": f"{self.language.capitalize()} translation for {self.post.slug} already exist",
+                    }
+                )
 
 
 class PostSeo(models.Model):

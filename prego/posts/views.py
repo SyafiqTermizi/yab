@@ -1,10 +1,11 @@
 from typing import Any, Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
+from django.http.response import JsonResponse
 from django.views.generic import TemplateView
 
-from .models import PostTranslation, Post, Languages
+from .forms import PostTranslationForm
+from .models import Post, Languages
 
 
 class CreatePostView(LoginRequiredMixin, TemplateView):
@@ -15,16 +16,20 @@ class CreatePostView(LoginRequiredMixin, TemplateView):
         context.update(
             {
                 "languages": Languages.choices,
-                "posts": Post.objects.annotate(
-                    translation_count=Count("translations"),
-                )
-                .filter(
-                    translation_count__lt=30,
-                )
-                .values(
-                    "pk",
-                    "slug",
-                ),
+                "posts": Post.objects.all(),
             }
         )
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = PostTranslationForm(data=request.POST)
+
+        if not form.is_valid():
+            return self.response_class(
+                request=request,
+                template=self.get_template_names(),
+                context={**self.get_context_data(), "errors": form.errors},
+            )
+        form.save()
+
+        return JsonResponse({"msg": "..."})

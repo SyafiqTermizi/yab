@@ -24,28 +24,38 @@
                 <form>
                     <div class="mb-3">
                         <label for="post" class="form-label">Post</label>
-                        <select name="post" class="form-select">
+                        <select name="post" class="form-select {% if errors.title %}is-invalid{% endif %}">
                             <option selected>Select a post</option>
                             {% for post in posts %}
                             <option value="{{ post.pk }}">{{ post.slug }}</option>
                             {% endfor %}
                         </select>
+                        {% for error in errors.post %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
                     <div class="mb-3">
                         <label for="title" class="form-label">Title</label>
-                        <input name="title" type="text" class="form-control" id="title">
+                        <input name="title" type="text" class="form-control {% if errors.title %}is-invalid{% endif %}"
+                            id="title">
+                        {% for error in errors.title %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
                     <div class="mb-3">
                         <div id="editor"></div>
                     </div>
                     <div class="mb-3">
                         <label for="language" class="form-label">Language</label>
-                        <select name="language" class="form-select">
+                        <select name="language" class="form-select {% if errors.language %}is-invalid{% endif %}">
                             <option selected>Language</option>
                             {% for language in languages %}
                             <option value="{{ language.0 }}">{{ language.1 }}</option>
                             {% endfor %}
                         </select>
+                        {% for error in errors.language %}
+                        <div class="invalid-feedback">{{ error }}</div>
+                        {% endfor %}
                     </div>
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="draft">
