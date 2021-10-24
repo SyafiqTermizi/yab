@@ -1,7 +1,5 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.aggregates import Count
-from django.utils.text import slugify
 
 from prego.users.models import User
 
@@ -66,36 +64,6 @@ class PostTranslation(models.Model):
 
     def __str__(self) -> str:
         return f"{self.post.slug} ({self.language})"
-
-    def clean(self) -> None:
-        is_new_post_in_en = (
-            not self.pk and self.language == Languages.EN and not hasattr(self, "post")
-        )
-        is_new_post_not_in_en = (
-            not self.pk and self.language != Languages.EN and not hasattr(self, "post")
-        )
-        is_new_translation_entry = not self.pk and hasattr(self, "post")
-
-        if is_new_post_in_en:
-            self.post = Post.objects.create(
-                slug=slugify(self.title),
-                created_by=self.created_by,
-            )
-        elif is_new_post_not_in_en:
-            raise ValidationError(
-                {
-                    "language": f"Initial post must be in {Languages.EN}",
-                }
-            )
-
-        if is_new_translation_entry:
-            languages = list(self.post.translations.values_list("language", flat=True))
-            if self.language in languages:
-                raise ValidationError(
-                    {
-                        "post": f"{self.language.capitalize()} translation for {self.post.slug} already exist",
-                    }
-                )
 
 
 class PostSeo(models.Model):
