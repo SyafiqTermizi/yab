@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
 from django.views.generic import TemplateView
 
-from .forms import PostTranslationForm
+from .serializers import PostTranslationSerializer
 from .models import Post, Languages
 
 
@@ -16,20 +16,29 @@ class CreatePostView(LoginRequiredMixin, TemplateView):
         context.update(
             {
                 "languages": Languages.choices,
-                "posts": Post.objects.all(),
+                "posts": Post.objects.get_post_with_incomplete_translation(),
             }
         )
         return context
 
     def post(self, request, *args, **kwargs):
-        form = PostTranslationForm(data=request.POST)
+        serializer = PostTranslationSerializer(
+            data=request.POST,
+            context={"created_by": request.user},
+        )
 
-        if not form.is_valid():
+        if not serializer.is_valid():
+            context = {
+                **self.get_context_data(),
+                "serializer_errors": serializer.errors,
+                "serializer_data": serializer.data,
+            }
+
             return self.response_class(
                 request=request,
                 template=self.get_template_names(),
-                context={**self.get_context_data(), "errors": form.errors},
+                context=context,
             )
-        form.save()
+        serializer.save()
 
         return JsonResponse({"msg": "..."})
