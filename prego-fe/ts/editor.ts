@@ -18,7 +18,13 @@ const options: QuillOptionsStatic = {
     },
 };
 
-const editor = new Quill("#editor", options)
+const editor = new Quill("#editor", options);
+
+// Set editor initial data if available
+const data = JSON.parse(document.getElementById("initial_data").textContent);
+if (data) {
+    editor.setContents(JSON.parse(data), "user");
+}
 
 // Handle form submission
 document.getElementById("post_form").onsubmit = () => {

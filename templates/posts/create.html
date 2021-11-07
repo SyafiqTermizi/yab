@@ -57,6 +57,7 @@
 
                 <div class="mb-3" style="display: none;">
                     <textarea name="json_body" id="json_body" cols="30" rows="10"></textarea>
+                    {{ serializer_data.json_body|json_script:"initial_data" }}
                 </div>
 
                 <div class="mb-3" style="display: none;">
