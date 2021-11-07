@@ -17,7 +17,7 @@ class PostFactory(DjangoModelFactory):
 class PostTranslationFactory(DjangoModelFactory):
     post = factory.SubFactory(PostFactory)
     title = factory.Faker("text")
-    body = factory.Faker("paragraph")
+    html_body = factory.Faker("paragraph")
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:

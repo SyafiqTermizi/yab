@@ -29,7 +29,8 @@ class PostTranslationSerializer(serializers.ModelSerializer):
         fields = [
             "post",
             "title",
-            "body",
+            "json_body",
+            "html_body",
             "language",
             "draft",
         ]
