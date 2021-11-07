@@ -23,6 +23,7 @@ class PostTranslationSerializer(serializers.ModelSerializer):
         queryset=Post.objects.get_post_with_incomplete_translation(),
         required=False,
     )
+    language = serializers.ChoiceField(choices=Languages.choices)
 
     class Meta:
         model = PostTranslation

@@ -19,75 +19,81 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <form action="{% url 'posts:create' %}" method="post">
+            <form id="post_form" action="{% url 'posts:create' %}" method="post">
                 {% csrf_token %}
-                <form>
-                    <div class="mb-3">
-                        <label for="post" class="form-label">Post</label>
-                        <select name="post" class="form-select {% if serializer_errors.post %}is-invalid{% endif %}">
-                            <option value="">Select a post</option>
-                            {% for post in posts %}
-                            {% with post_pk=serializer_data.post|add:0 %}
-                            <option value={{ post.pk }} {% if post_pk == post.pk %}selected="selected"{% endif %}>
-                                {{ post.slug }} {{ post_pk }} {{ post.pk }}
-                            </option>
-                            {% endwith %}
-                            {% endfor %}
-                        </select>
-                        {% for error in serializer_errors.post %}
-                        <div class="invalid-feedback">{{ error }}</div>
+                <div class="mb-3">
+                    <label for="post" class="form-label">Post</label>
+                    <select name="post" class="form-select {% if serializer_errors.post %}is-invalid{% endif %}">
+                        <option value="">Select a post</option>
+                        {% for post in posts %}
+                        {% with post_pk=serializer_data.post|add:0 %}
+                        <option value={{ post.pk }} {% if post_pk == post.pk %}selected="selected"{% endif %}>
+                            {{ post.slug }} {{ post_pk }} {{ post.pk }}
+                        </option>
+                        {% endwith %}
                         {% endfor %}
-                    </div>
+                    </select>
+                    {% for error in serializer_errors.post %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
 
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input
-                            name="title"
-                            type="text"
-                            class="form-control {% if serializer_errors.title %}is-invalid{% endif %}"
-                            id="title"
-                            value="{{ serializer_data.title }}">
-                        {% for error in serializer_errors.title %}
-                        <div class="invalid-feedback">{{ error }}</div>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input
+                        name="title"
+                        type="text"
+                        class="form-control {% if serializer_errors.title %}is-invalid{% endif %}"
+                        id="title"
+                        value="{{ serializer_data.title }}">
+                    {% for error in serializer_errors.title %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    <div id="editor" style="min-height: 300px;"></div>
+                </div>
+
+                <div class="mb-3" style="display: none;">
+                    <textarea name="json_body" id="json_body" cols="30" rows="10"></textarea>
+                </div>
+
+                <div class="mb-3" style="display: none;">
+                    <textarea name="html_body" id="html_body" cols="30" rows="10"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="language" class="form-label">Language</label>
+                    <select name="language"
+                        class="form-select {% if serializer_errors.language %}is-invalid{% endif %}">
+                        <option selected disabled>Language</option>
+                        {% for language in languages %}
+                        <option value="{{ language.0 }}" {% if serializer_data.language == language.0 %}selected="selected" {% endif %}>
+                            {{ language.1 }}
+                        </option>
                         {% endfor %}
-                    </div>
+                    </select>
+                    {% for error in serializer_errors.language %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
 
-                    <div class="mb-3">
-                        <div id="editor" style="min-height: 300px;"></div>
-                    </div>
+                <div class="mb-3 form-check">
+                    <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="draft"
+                        name="draft"
+                        {% if serializer_data.draft %}checked{% endif %}
+                    >
+                    <label class="form-check-label" for="draft">Draft</label>
+                    {% for error in serializer_errors.draft %}
+                    <div class="invalid-feedback">{{ error }}</div>
+                    {% endfor %}
+                </div>
 
-                    <div class="mb-3">
-                        <label for="language" class="form-label">Language</label>
-                        <select name="language"
-                            class="form-select {% if serializer_errors.language %}is-invalid{% endif %}">
-                            <option>Language</option>
-                            {% for language in languages %}
-                            <option value="{{ language.0 }}" {% if serializer_data.language == language.0 %}selected="selected" {% endif %}>
-                                {{ language.1 }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                        {% for error in serializer_errors.language %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="mb-3 form-check">
-                        <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="draft"
-                            name="draft"
-                            {% if serializer_data.draft %}checked{% endif %}
-                        >
-                        <label class="form-check-label" for="draft">Draft</label>
-                        {% for error in serializer_errors.draft %}
-                        <div class="invalid-feedback">{{ error }}</div>
-                        {% endfor %}
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
