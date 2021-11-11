@@ -39,11 +39,24 @@ class PostTranslationSerializer(serializers.ModelSerializer):
     def validate(self, data):
         validated_data = dict(super().validate(data))
 
+        is_new_post = not self.instance and not validated_data.get("post", None)
         is_new_translation_entry = not self.instance and validated_data.get(
             "post", None
         )
 
-        if is_new_translation_entry:
+        if is_new_post:
+            post = Post.objects.create(
+                created_by=self.context["created_by"],
+            )
+
+            if validated_data["language"] != Languages.ZH:
+                slug = slugify(validated_data["title"])
+            else:
+                slug = validated_data["title"].replace(" ", "-")
+
+            validated_data.update({"post": post, "slug": slug})
+
+        elif is_new_translation_entry:
 
             languages = list(
                 validated_data["post"].translations.values_list("language", flat=True)

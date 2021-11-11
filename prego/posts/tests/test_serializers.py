@@ -1,4 +1,5 @@
 import pytest
+from django.utils.text import slugify
 from rest_framework import serializers
 from prego.posts.models import PostTranslation
 
@@ -50,3 +51,24 @@ def test_post_translation_seralizer_invalid_existing_language(
 
     with pytest.raises(serializers.ValidationError):
         serializer.is_valid(raise_exception=True)
+
+
+def test_post_translation_serializer_new_post(db, create_user):
+    """
+    Newly created translation should have post and slug assigned to it
+    """
+    post_data = {
+        "title": "This is a post title",
+        "html_body": "<h1></h1>",
+        "json_body": {"title": "hi"},
+        "language": Languages.EN,
+    }
+    serializer = PostTranslationSerializer(
+        data=post_data, context={"created_by": create_user()}
+    )
+    assert serializer.is_valid(raise_exception=True)
+
+    translation = serializer.save()
+
+    assert translation.slug == slugify(post_data["title"])
+    assert translation.post.pk
