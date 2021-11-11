@@ -44,17 +44,19 @@ class PostTranslationSerializer(serializers.ModelSerializer):
             "post", None
         )
 
+        if not self.instance:
+            if validated_data["language"] != Languages.ZH:
+                slug = slugify(validated_data["title"])
+            else:
+                slug = validated_data["title"].replace(" ", "-")
+            validated_data.update({"slug": slug})
+
         if is_new_post:
             post = Post.objects.create(
                 created_by=self.context["created_by"],
             )
 
-            if validated_data["language"] != Languages.ZH:
-                slug = slugify(validated_data["title"])
-            else:
-                slug = validated_data["title"].replace(" ", "-")
-
-            validated_data.update({"post": post, "slug": slug})
+            validated_data.update({"post": post})
 
         elif is_new_translation_entry:
 
@@ -64,7 +66,7 @@ class PostTranslationSerializer(serializers.ModelSerializer):
             if validated_data["language"] in languages:
                 raise serializers.ValidationError(
                     {
-                        "post": f"{validated_data['language'].capitalize()} translation for {validated_data['post'].slug} already exist",
+                        "post": f"{validated_data['language'].capitalize()} translation for {validated_data['post']} already exist",
                     }
                 )
 
