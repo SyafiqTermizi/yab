@@ -31,9 +31,6 @@ class Post(models.Model):
 
     objects = PostManager()
 
-    def __str__(self) -> str:
-        return self.slug
-
 
 class PostTranslation(models.Model):
     post: Post = models.ForeignKey(
@@ -63,7 +60,7 @@ class PostTranslation(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.post.slug} ({self.language})"
+        return f"{self.slug} ({self.language})"
 
 
 class PostSeo(models.Model):

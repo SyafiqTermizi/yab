@@ -7,7 +7,6 @@ from prego.posts.models import Post, PostTranslation
 
 
 class PostFactory(DjangoModelFactory):
-    slug = factory.Faker("slug")
     created_by = factory.SubFactory(UserFactory)
 
     class Meta:
@@ -15,6 +14,7 @@ class PostFactory(DjangoModelFactory):
 
 
 class PostTranslationFactory(DjangoModelFactory):
+    slug = factory.Faker("slug")
     post = factory.SubFactory(PostFactory)
     title = factory.Faker("text")
     html_body = factory.Faker("paragraph")
