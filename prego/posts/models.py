@@ -22,8 +22,6 @@ class PostManager(models.Manager):
 
 
 class Post(models.Model):
-    slug = models.SlugField()
-
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         to=User,
@@ -45,6 +43,7 @@ class PostTranslation(models.Model):
         blank=True,
     )
 
+    slug = models.SlugField()
     title = models.CharField(max_length=255)
     json_body = models.JSONField(blank=True, null=True)
     html_body = models.TextField(blank=True)
