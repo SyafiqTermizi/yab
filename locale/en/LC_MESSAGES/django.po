@@ -38,26 +38,26 @@ msgstr ""
 msgid "Designates whether the user has verified their email address"
 msgstr ""
 
-#: templates/posts/create.html:5
+#: templates/posts/posttranslation_form.html:5
 msgid "Language"
 msgstr ""
 
-#: templates/posts/create.html:28
+#: templates/posts/posttranslation_form.html:28
 msgid "Post"
 msgstr ""
 
-#: templates/posts/create.html:30
+#: templates/posts/posttranslation_form.html:30
 msgid "Select a post"
 msgstr ""
 
-#: templates/posts/create.html:45
+#: templates/posts/posttranslation_form.html:45
 msgid "Title"
 msgstr ""
 
-#: templates/posts/create.html:94
+#: templates/posts/posttranslation_form.html:94
 msgid "Draft"
 msgstr ""
 
-#: templates/posts/create.html:100
+#: templates/posts/posttranslation_form.html:100
 msgid "Submit"
 msgstr ""
