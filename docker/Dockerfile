@@ -7,6 +7,8 @@ WORKDIR /app
 RUN apt-get update \
     # dependencies for building Python packages
     && apt-get install -y build-essential \
+    # translation stuff
+    && apt-get install -y gettext \
     # cleaning up unused files
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*

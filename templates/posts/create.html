@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% load static %}
 
 {% block extra_style %}
@@ -16,15 +17,16 @@
 {% endblock extra_style %}
 
 {% block content %}
+{% translate "Language" as language_text %}
 <div class="container">
     <div class="row">
         <div class="col-12">
             <form id="post_form" action="{% url 'posts:create' %}" method="post">
                 {% csrf_token %}
                 <div class="mb-3">
-                    <label for="post" class="form-label">Post</label>
+                    <label for="post" class="form-label">{% translate "Post" %}</label>
                     <select name="post" class="form-select {% if serializer_errors.post %}is-invalid{% endif %}">
-                        <option value="">Select a post</option>
+                        <option value="">{% translate "Select a post" %}</option>
                         {% for post in posts %}
                         {% with post_pk=serializer_data.post|add:0 %}
                         <option value={{ post.pk }} {% if post_pk == post.pk %}selected="selected"{% endif %}>
@@ -39,7 +41,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
+                    <label for="title" class="form-label">{% translate "Title" %}</label>
                     <input
                         name="title"
                         type="text"
@@ -65,10 +67,10 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="language" class="form-label">Language</label>
+                    <label for="language" class="form-label">{{ language_text }}</label>
                     <select name="language"
                         class="form-select {% if serializer_errors.language %}is-invalid{% endif %}">
-                        <option selected disabled>Language</option>
+                        <option selected disabled>{{ language_text }}</option>
                         {% for language in languages %}
                         <option value="{{ language.0 }}" {% if serializer_data.language == language.0 %}selected="selected" {% endif %}>
                             {{ language.1 }}
@@ -88,13 +90,13 @@
                         name="draft"
                         {% if serializer_data.draft %}checked{% endif %}
                     >
-                    <label class="form-check-label" for="draft">Draft</label>
+                    <label class="form-check-label" for="draft">{% translate "Draft" %}</label>
                     {% for error in serializer_errors.draft %}
                     <div class="invalid-feedback">{{ error }}</div>
                     {% endfor %}
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
             </form>
         </div>
     </div>

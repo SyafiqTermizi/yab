@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
-    path("users/", include("prego.users.urls")),
-    path("posts/", include("prego.posts.urls")),
     path("admin/", admin.site.urls),
 ]
+
+urlpatterns += i18n_patterns(
+    path("users/", include("prego.users.urls")),
+    path("posts/", include("prego.posts.urls")),
+)
