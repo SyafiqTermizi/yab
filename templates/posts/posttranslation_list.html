@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+        {% for post in post_translations %}
+        <div class="row">
+            <div class="col-12">
+                <h3>{{ post.title|title }}</h3>
+                <a href="{{ post.get_absolute_url }}">Detail</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

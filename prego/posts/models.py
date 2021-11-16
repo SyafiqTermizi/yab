@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.aggregates import Count
+from django.urls import reverse
 
 from prego.users.models import User
 
@@ -61,6 +62,9 @@ class PostTranslation(models.Model):
 
     def __str__(self) -> str:
         return f"{self.slug} ({self.language})"
+
+    def get_absolute_url(self):
+        return reverse("posts:detail", kwargs={"slug": self.slug})
 
 
 class PostSeo(models.Model):

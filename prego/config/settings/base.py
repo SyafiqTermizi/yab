@@ -125,7 +125,7 @@ LANGUAGE_CODE = "ms"
 LANGUAGES = [
     ("en", "English"),
     ("ms", "Bahasa Melayu"),
-    ("zh-hans", "Simplified Chinese"),
+    ("zh", "Simplified Chinese"),
 ]
 LOCALE_PATHS = [BASE_DIR / "locale"]
 TIME_ZONE = "Asia/Kuala_Lumpur"

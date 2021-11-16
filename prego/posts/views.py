@@ -1,15 +1,17 @@
 from typing import Any, Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.query import QuerySet
 from django.http.response import JsonResponse
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
 
+from .models import Post, PostTranslation, Languages
 from .serializers import PostTranslationSerializer
-from .models import Post, Languages
+from .utils import get_post_qs
 
 
 class CreatePostView(LoginRequiredMixin, TemplateView):
-    template_name = "posts/create.html"
+    template_name = "posts/posttranslation_form.html"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -42,3 +44,15 @@ class CreatePostView(LoginRequiredMixin, TemplateView):
         serializer.save()
 
         return JsonResponse({"msg": "..."})
+
+
+class ListPostView(ListView):
+    context_object_name = "post_translations"
+
+    def get_queryset(self) -> QuerySet[PostTranslation]:
+        return get_post_qs(user=self.request.user, language=self.request.LANGUAGE_CODE)
+
+
+class DetailPostView(DetailView):
+    def get_queryset(self) -> QuerySet[PostTranslation]:
+        return get_post_qs(self.request.user, language=self.request.LANGUAGE_CODE)
