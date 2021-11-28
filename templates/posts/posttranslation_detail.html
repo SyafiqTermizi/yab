@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12"><h1>{{ posttranslation.title }}</h1></div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            {% autoescape off %}
+                {{ posttranslation.html_body }}
+            {% endautoescape %}
+        </div>
+    </div>
+</div>
+{% endblock content %}
