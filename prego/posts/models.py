@@ -1,12 +1,17 @@
 from django.db import models
 from django.db.models.aggregates import Count
+from django.db.models.base import Model
 from django.urls import reverse
 
 from prego.users.models import User
 
 
 def get_seo_image_path(instance, filename: str):
-    return f"posts/{instance.post.post.slug}/seo/{filename}"
+    return f"posts/{instance.post.slug}/seo/{filename}"
+
+
+def get_post_image_path(instance, filename: str):
+    return f"posts/{instance.post.slug}/images/{filename}"
 
 
 class Languages(models.TextChoices):
@@ -84,3 +89,10 @@ class PostSeo(models.Model):
         if not self.pk and not self.title:
             self.title = self.post.title[:88]
         return super().save(*args, **kwargs)
+
+
+class PostTranslationImage(models.Model):
+    post: PostTranslation = models.ForeignKey(
+        PostTranslation, on_delete=models.CASCADE, related_name="images"
+    )
+    image = models.ImageField(upload_to=get_post_image_path)
