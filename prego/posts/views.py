@@ -8,7 +8,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import Post, PostTranslation, Languages
+from .models import Post, PostTranslation, PostTranslationImage, Languages
 from .serializers import PostTranslationSerializer, ImageUploadSerializer
 from .utils import get_post_qs
 
@@ -63,7 +63,14 @@ class DetailPostView(DetailView):
 
 @api_view(["POST"])
 def upload_image_view(request: HttpRequest):
+    # Validate POST data
     serializer = ImageUploadSerializer(request.POST, request.FILES)
     serializer.is_valid(raise_exception=True)
-    data = serializer.save()
-    return Response({"data": data})
+
+    # Save image to DB
+    post_image = PostTranslationImage(image=request.FILES["image"])
+    post_image.save()
+
+    # Return data to user
+    serializer = ImageUploadSerializer(instance=post_image)
+    return Response({"data": serializer.data})
