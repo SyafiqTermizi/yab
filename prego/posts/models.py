@@ -11,7 +11,7 @@ def get_seo_image_path(instance, filename: str):
 
 
 def get_post_image_path(instance, filename: str):
-    return f"posts/{instance.post.slug}/images/{filename}"
+    return f"posts/images/{filename}"
 
 
 class Languages(models.TextChoices):
@@ -92,7 +92,4 @@ class PostSeo(models.Model):
 
 
 class PostTranslationImage(models.Model):
-    post: PostTranslation = models.ForeignKey(
-        PostTranslation, on_delete=models.CASCADE, related_name="images"
-    )
     image = models.ImageField(upload_to=get_post_image_path)
