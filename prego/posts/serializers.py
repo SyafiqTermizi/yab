@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 from rest_framework.serializers import PrimaryKeyRelatedField
 
-from .models import Post, PostTranslation, Languages
+from .models import Post, PostTranslation, Languages, PostTranslationImage
 
 
 class PrimaryKeyRelatedFieldWithCustomMessage(PrimaryKeyRelatedField):
@@ -71,3 +71,9 @@ class PostTranslationSerializer(serializers.ModelSerializer):
                 )
 
         return validated_data
+
+
+class ImageUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostTranslationImage
+        fields = ["image"]

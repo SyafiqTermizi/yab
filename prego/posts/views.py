@@ -3,10 +3,13 @@ from typing import Any, Dict
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
 from django.http.response import JsonResponse
+from django.http.request import HttpRequest
 from django.views.generic import TemplateView, ListView, DetailView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from .models import Post, PostTranslation, Languages
-from .serializers import PostTranslationSerializer
+from .serializers import PostTranslationSerializer, ImageUploadSerializer
 from .utils import get_post_qs
 
 
@@ -56,3 +59,11 @@ class ListPostView(ListView):
 class DetailPostView(DetailView):
     def get_queryset(self) -> QuerySet[PostTranslation]:
         return get_post_qs(self.request.user, language=self.request.LANGUAGE_CODE)
+
+
+@api_view(["POST"])
+def upload_image_view(request: HttpRequest):
+    serializer = ImageUploadSerializer(request.POST, request.FILES)
+    serializer.is_valid(raise_exception=True)
+    data = serializer.save()
+    return Response({"data": data})
