@@ -5,7 +5,8 @@ from django.db.models.query import QuerySet
 from django.http.response import JsonResponse
 from django.http.request import HttpRequest
 from django.views.generic import TemplateView, ListView, DetailView
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Post, PostTranslation, PostTranslationImage, Languages
@@ -62,6 +63,7 @@ class DetailPostView(DetailView):
 
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def upload_image_view(request: HttpRequest):
     # Validate POST data
     serializer = ImageUploadSerializer(request.POST, request.FILES)
