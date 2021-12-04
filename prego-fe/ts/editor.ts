@@ -1,21 +1,7 @@
 import "quill/dist/quill.snow.css";
 import Quill, { QuillOptionsStatic } from "quill";
 
-export function getCookie(name: string) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
-        const cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + "=")) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+import { getCSRFCookie } from "./utils";
 
 const options: QuillOptionsStatic = {
     theme: "snow",
@@ -78,12 +64,11 @@ function saveToServer(file: File) {
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", "/en/posts/create/image/", true);
-    xhr.setRequestHeader("X-CSRFToken", getCookie("csrftoken"));
+    xhr.setRequestHeader("X-CSRFToken", getCSRFCookie());
     xhr.onload = () => {
         if (xhr.status === 200) {
             // this is callback data: url
             const url = JSON.parse(xhr.responseText).data;
-            console.log(url)
             insertToEditor(url.image);
         }
     };
