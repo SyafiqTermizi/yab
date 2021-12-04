@@ -2,8 +2,9 @@ from typing import Any, Dict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.query import QuerySet
-from django.http.response import JsonResponse
+from django.http.response import HttpResponseRedirect
 from django.http.request import HttpRequest
+from django.urls import reverse
 from django.views.generic import TemplateView, ListView, DetailView
 from rest_framework.decorators import (
     api_view,
@@ -50,9 +51,14 @@ class CreatePostView(LoginRequiredMixin, TemplateView):
                 template=self.get_template_names(),
                 context=context,
             )
-        serializer.save()
+        post = serializer.save()
 
-        return JsonResponse({"msg": "..."})
+        return HttpResponseRedirect(
+            reverse(
+                "posts:detail",
+                kwargs={"slug": post.slug},
+            )
+        )
 
 
 class ListPostView(ListView):
