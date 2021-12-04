@@ -121,7 +121,7 @@ AUTHENTICATION_BACKENDS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-LANGUAGE_CODE = "ms"
+LANGUAGE_CODE = "en"
 LANGUAGES = [
     ("en", "English"),
     ("ms", "Bahasa Melayu"),
