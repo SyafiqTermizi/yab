@@ -46,7 +46,7 @@ class PostTranslation(models.Model):
         blank=True,
     )
 
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=100)
     title = models.CharField(max_length=255)
     json_body = models.JSONField(blank=True, null=True)
     html_body = models.TextField(blank=True)
