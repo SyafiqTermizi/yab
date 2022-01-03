@@ -1,6 +1,6 @@
 import pytest
 
-from prego.posts.models import PostSeo
+from blog.posts.models import PostSeo
 
 
 @pytest.mark.parametrize("lang", ["ms", "zh", "en"])

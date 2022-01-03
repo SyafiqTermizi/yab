@@ -1,6 +1,6 @@
 from django.db.models.query import QuerySet
 
-from prego.users.models import User
+from blog.users.models import User
 
 from .models import PostTranslation
 

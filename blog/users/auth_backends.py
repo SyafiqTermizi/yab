@@ -3,7 +3,7 @@ from typing import Any, Optional
 from django.contrib.auth.backends import ModelBackend
 from django.http.request import HttpRequest
 
-from prego.users.models import User
+from blog.users.models import User
 
 
 class UsernameBackend(ModelBackend):

@@ -28,7 +28,7 @@ services:
 
   celery_app:
     <<: *base
-    command: poetry run celery -A prego.bg_tasks worker --loglevel=INFO
+    command: poetry run celery -A blog.bg_tasks worker --loglevel=INFO
     depends_on:
       - database
       - queue

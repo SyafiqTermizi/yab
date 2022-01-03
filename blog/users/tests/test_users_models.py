@@ -1,6 +1,6 @@
 import pytest
 
-from prego.users.models import EmailVerificationToken
+from blog.users.models import EmailVerificationToken
 
 
 def test_user_model_str_method(db, create_user):

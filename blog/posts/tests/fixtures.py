@@ -1,6 +1,6 @@
 import pytest
 
-from prego.posts.tests.factories import PostFactory, PostTranslationFactory
+from blog.posts.tests.factories import PostFactory, PostTranslationFactory
 
 
 @pytest.fixture

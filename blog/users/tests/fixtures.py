@@ -2,7 +2,7 @@ import pytest
 
 from rest_framework.test import APIClient
 
-from prego.users.tests.factories import UserFactory, EmailVerificationTokenFactory
+from blog.users.tests.factories import UserFactory, EmailVerificationTokenFactory
 
 
 @pytest.fixture

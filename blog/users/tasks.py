@@ -25,18 +25,18 @@ def create_token_and_send_email(user_id: int):
     message = f"""
     Hi {user.username},
 
-    We're happy you signed up for prego. To start exploring the app, please confirm your email address.
+    We're happy you signed up for blog. To start exploring the app, please confirm your email address.
     
     {full_url}
 
-    Welcome to prego!
-    The prego Team
+    Welcome to blog!
+    The blog Team
     """
 
     user.email_user(
         "Email Verification",
         message=message,
-        from_email="no-reply@prego.com",
+        from_email="no-reply@blog.com",
     )
 
 
@@ -58,11 +58,11 @@ def send_forget_password_email(user_id: int):
     You're receiving this email because you requested a password reset for your user account at {full_url}
 
     Thanks for using our site!
-    The prego Team
+    The blog Team
     """
 
     user.email_user(
         "Password Reset",
         message=message,
-        from_email="no-reply@prego.com",
+        from_email="no-reply@blog.com",
     )

@@ -3,7 +3,7 @@ from django.db.models.signals import post_save
 import factory
 from factory.django import DjangoModelFactory
 
-from prego.users.models import User, EmailVerificationToken
+from blog.users.models import User, EmailVerificationToken
 
 
 @factory.django.mute_signals(post_save)

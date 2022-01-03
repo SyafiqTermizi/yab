@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "dj-prego"
+name = "dj-blog"
 version = "0.1.0"
-description = "Django authentication pregoing, with REACT!!"
+description = "Django authentication bloging, with REACT!!"
 authors = ["syafiq <ahmadsyafiq93@gmail.com>"]
 license = "MIT"
 

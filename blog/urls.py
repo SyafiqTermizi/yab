@@ -1,4 +1,4 @@
-"""prego URL Configuration
+"""blog URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -24,8 +24,8 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    path("users/", include("prego.users.urls")),
-    path("posts/", include("prego.posts.urls")),
+    path("users/", include("blog.users.urls")),
+    path("posts/", include("blog.posts.urls")),
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,9 +3,9 @@ import * as webpack from "webpack";
 
 const config: webpack.Configuration = {
     entry: {
-        bootstrap: __dirname + "/prego-fe/ts/bootstrap.ts",
-        editor: __dirname + "/prego-fe/ts/editor.ts",
-        codehighlight: __dirname + "/prego-fe/ts/codehighlight.ts"
+        bootstrap: __dirname + "/blog-fe/ts/bootstrap.ts",
+        editor: __dirname + "/blog-fe/ts/editor.ts",
+        codehighlight: __dirname + "/blog-fe/ts/codehighlight.ts"
     },
     output: {
         path: path.resolve("./static/"),

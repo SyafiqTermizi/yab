@@ -17,23 +17,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: prego/posts/serializers.py:11
+#: blog/posts/serializers.py:11
 msgid "This field is required."
 msgstr ""
 
-#: prego/posts/serializers.py:13 prego/posts/serializers.py:16
+#: blog/posts/serializers.py:13 blog/posts/serializers.py:16
 msgid "Invalid choice - Please select from one of the available choice."
 msgstr ""
 
-#: prego/users/models.py:13
+#: blog/users/models.py:13
 msgid "email address"
 msgstr "alamat emel"
 
-#: prego/users/models.py:15
+#: blog/users/models.py:15
 msgid "verified email"
 msgstr ""
 
-#: prego/users/models.py:17
+#: blog/users/models.py:17
 msgid "Designates whether the user has verified their email address"
 msgstr ""
 

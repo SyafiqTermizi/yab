@@ -3,7 +3,7 @@ from django.db.models.aggregates import Count
 from django.db.models.base import Model, ModelStateFieldsCacheDescriptor
 from django.urls import reverse
 
-from prego.users.models import User
+from blog.users.models import User
 
 
 def get_seo_image_path(instance, filename: str):

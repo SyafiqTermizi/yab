@@ -1,7 +1,7 @@
 import pytest
 from rest_framework import serializers
 
-from prego.users.serializers import (
+from blog.users.serializers import (
     UserCreationSerializer,
     AuthenticationSerializer,
     FindUserByEmailSerializer,

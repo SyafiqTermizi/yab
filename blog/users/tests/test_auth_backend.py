@@ -2,7 +2,7 @@ from django.http import request
 import pytest
 from django.contrib.auth import authenticate
 
-from prego.users.auth_backends import EmailBackend, UsernameBackend
+from blog.users.auth_backends import EmailBackend, UsernameBackend
 
 
 @pytest.mark.parametrize(

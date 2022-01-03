@@ -2,8 +2,8 @@ import factory
 
 from factory.django import DjangoModelFactory
 
-from prego.users.tests.factories import UserFactory
-from prego.posts.models import Post, PostTranslation
+from blog.users.tests.factories import UserFactory
+from blog.posts.models import Post, PostTranslation
 
 
 class PostFactory(DjangoModelFactory):

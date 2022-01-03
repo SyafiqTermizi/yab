@@ -1,9 +1,9 @@
 import pytest
 from django.utils.text import slugify
 from rest_framework import serializers
-from prego.posts.models import PostTranslation
+from blog.posts.models import PostTranslation
 
-from prego.posts.serializers import PostTranslationSerializer, Languages
+from blog.posts.serializers import PostTranslationSerializer, Languages
 
 
 def test_post_translation_serializer_valid(db, create_user):
