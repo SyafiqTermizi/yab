@@ -50,7 +50,7 @@ class PostTranslation(models.Model):
     title = models.CharField(max_length=255)
     json_body = models.JSONField(blank=True, null=True)
     html_body = models.TextField(blank=True)
-    raw_text = models.TextField()
+    raw_text = models.TextField(blank=True)
     language = models.CharField(
         max_length=10,
         choices=Languages.choices,

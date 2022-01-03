@@ -8,7 +8,7 @@ def test_user_creation_api_view_success(db, api_client):
     2. return a JSON that contains username and email only
     """
     response = api_client().post(
-        "/users/register/",
+        "/en/users/register/",
         data={
             "username": "test",
             "email": "test@example.com",
@@ -102,7 +102,7 @@ def test_user_creation_api_view_fail(
     create_user(username="existinguser", email="existinguser@test.com")
 
     response = api_client().post(
-        "/users/register/",
+        "/en/users/register/",
         data={
             "username": username,
             "email": email,
@@ -117,19 +117,19 @@ def test_user_creation_api_view_fail(
 
 def test_email_verification_token_view_valid(db, client, create_token):
     """
-    /users/verify-token/ URL should return 200 if the token is valid
+    /en/users/verify-token/ URL should return 200 if the token is valid
     """
     token = create_token()
-    res = client.get(f"/users/verify-token/{token.token}/")
+    res = client.get(f"/en/users/verify-token/{token.token}/")
     assert res.status_code == 200
     assert "Your email has been verified" in str(res.content)
 
 
 def test_email_verification_token_view_invalid(db, client):
     """
-    /users/verify-token/ URL should return 404 if the token is invalid
+    /en/users/verify-token/ URL should return 404 if the token is invalid
     """
-    res = client.get(f"/users/verify-token/invalidtoken/")
+    res = client.get(f"/en/users/verify-token/invalidtoken/")
     assert res.status_code == 404
 
 
@@ -141,7 +141,7 @@ def test_login_view_valid(db, create_user, client, username_or_email):
     user.save()
 
     res = client.post(
-        "/users/login/",
+        "/en/users/login/",
         {
             "username_or_email": username_or_email,
             "password": "password123321",
@@ -165,7 +165,7 @@ def test_login_view_invalid(db, create_user, client, username_or_email):
     user.save()
 
     res = client.post(
-        "/users/login/",
+        "/en/users/login/",
         {
             "username_or_email": username_or_email,
             "password": "password123321",
@@ -177,7 +177,7 @@ def test_login_view_invalid(db, create_user, client, username_or_email):
 
 
 def test_logout_view(db, client):
-    res = client.post("/users/logout/")
+    res = client.post("/en/users/logout/")
 
     assert res.status_code == 200
     assert res.json() == {"msg": "Success"}
@@ -186,14 +186,14 @@ def test_logout_view(db, client):
 def test_forget_password_valid(db, client, create_user):
     user = create_user()
 
-    res = client.post("/users/forgot-password/", {"email": user.email})
+    res = client.post("/en/users/forgot-password/", {"email": user.email})
 
     assert res.status_code == 200
     assert res.json() == {"msg": "Success"}
 
 
 def test_forget_password_invalid(db, client):
-    res = client.post("/users/forgot-password/", {"email": "invalidemail@email.com"})
+    res = client.post("/en/users/forgot-password/", {"email": "invalidemail@email.com"})
 
     assert res.status_code == 200
     assert res.json() == {"msg": "Success"}
