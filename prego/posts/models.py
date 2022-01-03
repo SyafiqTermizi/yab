@@ -72,6 +72,9 @@ class PostTranslation(models.Model):
     def get_absolute_url(self):
         return reverse("posts:detail", kwargs={"slug": self.slug})
 
+    def get_summary(self):
+        return self.raw_text.split("\r\n")[0].strip(":,")
+
 
 class PostSeo(models.Model):
     post: PostTranslation = models.OneToOneField(

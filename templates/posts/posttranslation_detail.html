@@ -3,12 +3,6 @@
 
 {% block extra_style %}
 <style>
-    main {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 42rem;
-        padding: 2.625rem 1.3125rem;
-    }
     pre.ql-syntax {
         padding: 3%;
         border-radius: 10px;
@@ -18,20 +12,18 @@
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <col-6>
-            <main>
-                <article>
-                    <header class="mb-5">
-                        <h1><b>{{ posttranslation.title }}</b></h1>
-                        <p>{{ posttranslation.created_at }} | {{ posttranslation.created_by }}</p>
-                    </header>
-                    {% autoescape off %}
-                        {{ posttranslation.html_body }}
-                    {% endautoescape %}
-                </article>
-            </main>
-        </col-6>
+    <div>
+        <main>
+            <article>
+                <header class="mb-5">
+                    <h1><b>{{ posttranslation.title }}</b></h1>
+                    <p>{{ posttranslation.created_at }} | {{ posttranslation.created_by }}</p>
+                </header>
+                {% autoescape off %}
+                    {{ posttranslation.html_body }}
+                {% endautoescape %}
+            </article>
+        </main>
     </div>
 </div>
 {% endblock content %}

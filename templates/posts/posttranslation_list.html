@@ -1,14 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-        {% for post in post_translations %}
-        <div class="row">
-            <div class="col-12">
-                <h3>{{ post.title|title }}</h3>
-                <a href="{{ post.get_absolute_url }}">Detail</a>
-            </div>
-        </div>
-        {% endfor %}
+<div class="container">
+    {% for post in post_translations %}
+    <div>
+        <main>
+            <article>
+                <header class="mb-2">
+                    <h1>
+                        <a href="{{ post.get_absolute_url }}">
+                            <b>{{ post.title }}</b>
+                        </a>
+                    </h1>
+                    <small>{{ post.created_at }} | {{ post.created_by }}</small>
+                </header>
+                {{ post.get_summary }}
+            </article>
+        </main>
     </div>
+    {% endfor %}
+</div>
 {% endblock content %}
