@@ -46,7 +46,7 @@ class CreatePostView(LoginRequiredMixin, TemplateView):
                 template=self.get_template_names(),
                 context=context,
             )
-        post = serializer.save()
+        post = serializer.save(created_by=request.user)
 
         return HttpResponseRedirect(
             reverse(
