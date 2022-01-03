@@ -37,6 +37,11 @@ document.getElementById("post_form").onsubmit = () => {
     const editorHTMLData = document.getElementsByClassName("ql-editor")[0].innerHTML;
     const htmlBodyTextArea = document.getElementById("html_body") as HTMLInputElement;
     htmlBodyTextArea.value = editorHTMLData;
+
+    const rawText = editor.getText();
+    const rawTextTextArea = document.getElementById("raw_text") as HTMLInputElement;
+    rawTextTextArea.value = rawText;
+
     return true;
 }
 

@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.aggregates import Count
-from django.db.models.base import Model
+from django.db.models.base import Model, ModelStateFieldsCacheDescriptor
 from django.urls import reverse
 
 from prego.users.models import User
@@ -50,6 +50,7 @@ class PostTranslation(models.Model):
     title = models.CharField(max_length=255)
     json_body = models.JSONField(blank=True, null=True)
     html_body = models.TextField(blank=True)
+    raw_text = models.TextField()
     language = models.CharField(
         max_length=10,
         choices=Languages.choices,

@@ -32,6 +32,7 @@ class PostTranslationSerializer(serializers.ModelSerializer):
             "title",
             "json_body",
             "html_body",
+            "raw_text",
             "language",
             "draft",
         ]
