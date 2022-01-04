@@ -2,7 +2,7 @@ import os
 
 from celery import Celery
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blog.config.settings.local")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "blog.settings.local")
 app = Celery(
     "bg_tasks",
     backend=os.environ.get("CELERY_BROKER_URL"),
