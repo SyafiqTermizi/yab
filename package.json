@@ -4,7 +4,8 @@
   "description": "> Too many ideas, too little time",
   "main": "index.js",
   "scripts": {
-    "watch": "webpack --config webpack.config.ts --watch --mode development"
+    "watch": "webpack --config webpack.config.ts --watch --mode development",
+    "build": "webpack --config webpack.config.ts --mode production"
   },
   "keywords": [],
   "author": "",

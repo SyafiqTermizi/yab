@@ -1,0 +1,39 @@
+---
+- name: Build Docker image, build blog fe and run collectstatic
+  hosts: local
+
+  tasks:
+    - name: Log into GHCR
+      docker_login:
+        registry_url: ghcr.io
+        username: "{{ ghcr_username }}"
+        password: "{{ ghcr_password }}"
+
+    - name: Remove existing Docker image
+      docker_image:
+        state: absent
+        name: ghcr.io/syafiqtermizi/blog
+        tag: latest
+
+    - name: Build Docker image and push to GHCR
+      docker_image:
+        build:
+          dockerfile: "{{ dockerfile_path }}"
+          path: "{{ project_dir }}"
+        name: ghcr.io/syafiqtermizi/blog
+        push: yes
+        tag: latest
+        source: build
+
+    - name: Build Blog's static files
+      command:
+        cmd: npm run build
+        chdir: "{{ project_dir }}"
+
+    - name: Collect Django's staticfiles
+      environment:
+        DJANGO_ALLOWED_HOSTS: placeholder,test
+        DJANGO_SECRET_KEY: dummykey
+      command:
+        cmd: python manage.py collectstatic --noinput
+        chdir: "{{ project_dir }}"
