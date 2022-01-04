@@ -3,6 +3,8 @@
 !.env
 !.pylintrc
 
+.pytest_cache
+
 .dockerignore
 *Dockerfile
 docker-compose*
