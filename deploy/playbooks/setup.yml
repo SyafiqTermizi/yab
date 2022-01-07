@@ -1,0 +1,50 @@
+---
+- name: Server setup
+  hosts: prod
+
+  tasks:
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - python3-setuptools
+        update_cache: yes
+        state: latest
+
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: "deb https://download.docker.com/linux/ubuntu {{ ubuntu_release }} stable"
+        state: present
+        filename: docker.list
+
+    - name: Install Docker
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        update_cache: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: Update ufw to allow Nginx
+      ufw:
+        rule: allow
+        name: "{{ item }}"
+      loop:
+        - "OpenSSH"
+        - "Nginx HTTP"
+        - "Nginx HTTPS"
