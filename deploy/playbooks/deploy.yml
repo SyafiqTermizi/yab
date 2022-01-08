@@ -2,6 +2,8 @@
 - name: Deploy YAB to the production servers
   hosts: prod
   remote_user: "{{ project_user }}"
+  roles:
+    - docker_registry_login
   vars_files:
     - ../vars/main.yml
 
@@ -30,12 +32,6 @@
       loop:
         - { src: "docker/prod.docker-compose.yml", dest: "docker-compose.yml"}
         - { src: "staticfiles/", dest: "staticfiles/" }
-
-    - name: Login into GHCR
-      docker_login:
-        registry_url: ghcr.io
-        username: "{{ ghcr_username }}"
-        password: "{{ ghcr_password }}"
 
     - name: Start Docker services
       docker_compose:

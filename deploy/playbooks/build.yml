@@ -1,16 +1,12 @@
 ---
 - name: Build Docker image, build blog fe and run collectstatic
   hosts: local
+  roles:
+    - docker_registry_login
   vars_files:
     - ../vars/main.yml
 
   tasks:
-    - name: Log into GHCR
-      docker_login:
-        registry_url: ghcr.io
-        username: "{{ ghcr_username }}"
-        password: "{{ ghcr_password }}"
-
     - name: Remove existing Docker image
       docker_image:
         state: absent

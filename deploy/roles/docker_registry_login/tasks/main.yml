@@ -1,0 +1,5 @@
+- name: Log into GHCR
+  docker_login:
+    registry_url: ghcr.io
+    username: "{{ ghcr_username }}"
+    password: "{{ ghcr_password }}"  
