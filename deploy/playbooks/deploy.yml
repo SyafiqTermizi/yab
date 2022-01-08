@@ -1,0 +1,43 @@
+---
+- name: Deploy YAB to the production servers
+  hosts: prod
+  remote_user: "{{ project_user }}"
+  vars_files:
+    - ../vars/main.yml
+
+  tasks:
+    - name: Create project directory if not exist
+      file: 
+        path: "{{ remote_project_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Copy environment files to the server
+      template:
+        src: "{{ local_project_dir }}/deploy/templates/env.j2"
+        dest: "{{ remote_project_dir }}/.env"
+        owner: "{{ project_user }}"
+        group: "{{ project_user }}"
+        mode: "0755"
+
+    - name: Copy staticfiles and .env file to the server
+      copy:
+        src: "{{ local_project_dir }}/{{ item.src }}"
+        dest: "{{ remote_project_dir }}/{{ item.dest }}"
+        owner: "{{ project_user }}"
+        group: "{{ project_user }}"
+        mode: "0755"
+      loop:
+        - { src: "docker/prod.docker-compose.yml", dest: "docker-compose.yml"}
+        - { src: "staticfiles/", dest: "staticfiles/" }
+
+    - name: Login into GHCR
+      docker_login:
+        registry_url: ghcr.io
+        username: "{{ ghcr_username }}"
+        password: "{{ ghcr_password }}"
+
+    - name: Start Docker services
+      docker_compose:
+        project_src: "{{ remote_project_dir }}"
+        pull: yes

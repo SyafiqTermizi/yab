@@ -1,6 +1,8 @@
 ---
 - name: Build Docker image, build blog fe and run collectstatic
   hosts: local
+  vars_files:
+    - ../vars/main.yml
 
   tasks:
     - name: Log into GHCR
@@ -18,8 +20,8 @@
     - name: Build Docker image and push to GHCR
       docker_image:
         build:
-          dockerfile: "{{ dockerfile_path }}"
-          path: "{{ project_dir }}"
+          dockerfile: "{{ local_project_dir }}/docker/prod.Dockerfile"
+          path: "{{ local_project_dir }}"
         name: ghcr.io/syafiqtermizi/blog
         push: yes
         tag: latest
@@ -28,7 +30,7 @@
     - name: Build Blog's static files
       command:
         cmd: npm run build
-        chdir: "{{ project_dir }}"
+        chdir: "{{ local_project_dir }}"
 
     - name: Collect Django's staticfiles
       environment:
@@ -36,4 +38,4 @@
         DJANGO_SECRET_KEY: dummykey
       command:
         cmd: python manage.py collectstatic --noinput
-        chdir: "{{ project_dir }}"
+        chdir: "{{ local_project_dir }}"
