@@ -14,15 +14,30 @@
         state: directory
         mode: "0755"
 
-    - name: Copy environment files to the server
+    - name: Copy environment files and Nginx config to the server
       template:
-        src: "{{ local_project_dir }}/deploy/templates/env.j2"
-        dest: "{{ remote_project_dir }}/.env"
-        owner: "{{ project_user }}"
-        group: "{{ project_user }}"
-        mode: "0755"
+        src: "{{ local_project_dir }}/{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: "{{ item.owner }}"
+        group: "{{ item.group }}"
+        mode: "{{ item.mode }}"
+      loop:
+        - { src: "deploy/templates/env.j2", dest: "{{ remote_project_dir }}/.env", owner: "{{ project_user }}", group: "{{ project_user }}", mode: "0755" }
+        - { src: "deploy/templates/nginx.j2", dest: "/etc/nginx/sites-available/syafiqtermizi.com", owner: root, group: root, mode: "0744" }
 
-    - name: Copy staticfiles and .env file to the server
+    - name: Link Nginx config
+      file:
+        src: "/etc/nginx/sites-available/syafiqtermizi.com"
+        dest: "/etc/nginx/sites-enabled/syafiqtermizi.com"
+        state: link
+        force: yes
+
+    - name: Restart Nginx service
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Copy staticfiles and docker-compose.yml file to the server
       copy:
         src: "{{ local_project_dir }}/{{ item.src }}"
         dest: "{{ remote_project_dir }}/{{ item.dest }}"

@@ -12,6 +12,8 @@
           - software-properties-common
           - python3-pip
           - python3-setuptools
+          - certbot
+          - python3-certbot-nginx
         update_cache: yes
         state: latest
 
