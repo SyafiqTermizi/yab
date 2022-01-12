@@ -25,7 +25,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path("users/", include("blog.users.urls")),
-    path("posts/", include("blog.posts.urls")),
+    path("", include("blog.posts.urls")),
 )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
