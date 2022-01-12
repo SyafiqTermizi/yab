@@ -1,21 +1,23 @@
 server {
     listen 80;
-    server_name syafiqtermizi.com www.syafiqtermizi.com;
+    server_name {{ nginx_server_names }};
 
-    location / {
-        proxy_pass http://localhost:8000/;
-    }
+    return 301 https://$host$request_uri;
 }
 
 
 server {
-    server_name syafiqtermizi.com www.syafiqtermizi.com;
+    server_name {{ nginx_server_names }};
 
     listen 443 ssl;
-    ssl_certificate /etc/letsencrypt/live/syafiqtermizi.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/syafiqtermizi.com/privkey.pem;
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    ssl_certificate {{ nginx_cert_dir }}/live/syafiqtermizi.com/fullchain.pem;
+    ssl_certificate_key {{ nginx_cert_dir }}/live/syafiqtermizi.com/privkey.pem;
+    include {{ nginx_cert_dir }}/options-ssl-nginx.conf;
+    ssl_dhparam {{ nginx_cert_dir }}/ssl-dhparams.pem;
+
+    location /static/ {
+        alias {{ remote_project_dir }}/staticfiles/;
+    }
 
 
     location / {
